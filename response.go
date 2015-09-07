@@ -31,6 +31,14 @@ func (r *Response) transaction() (*Transaction, error) {
 	return &b, nil
 }
 
+func (r *Response) paymentMethod() (*PaymentMethod, error) {
+	var b PaymentMethod
+	if err := xml.Unmarshal(r.Body, &b); err != nil {
+		return nil, err
+	}
+	return &b, nil
+}
+
 func (r *Response) creditCard() (*CreditCard, error) {
 	var b CreditCard
 	if err := xml.Unmarshal(r.Body, &b); err != nil {

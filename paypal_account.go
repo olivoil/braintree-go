@@ -3,8 +3,7 @@ package braintree
 import "time"
 
 type PaypalAccount struct {
-	CustomerId    string         `xml:"customer-id,omitempty"`
-	Token         string         `xml:"token,omitempty"`
+	PaymentMethod
 	Email         string         `xml:"email,omitempty"`
 	ImageURL      string         `xml:"image-url,omitempty"`
 	CreatedAt     *time.Time     `xml:"created-at,omitempty"`

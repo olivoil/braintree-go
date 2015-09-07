@@ -12,7 +12,9 @@ var testCreditCards = map[string]CreditCard{
 
 var testPaypalAccounts = map[string]PaypalAccount{
 	"example": PaypalAccount{Email: "test@example.com"},
-	"test":    PaypalAccount{Email: "jane.doe@example.com", Token: os.Getenv("BRAINTREE_PAYPAL_ACCOUNT_TOKEN")},
+	"test": PaypalAccount{Email: "jane.doe@example.com",
+		PaymentMethod: PaymentMethod{Token: os.Getenv("BRAINTREE_PAYPAL_ACCOUNT_TOKEN")},
+	},
 }
 
 var testGateway = New(

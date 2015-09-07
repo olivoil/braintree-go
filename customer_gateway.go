@@ -6,6 +6,24 @@ type CustomerGateway struct {
 	*Braintree
 }
 
+// All fetches all customers.
+func (g *CustomerGateway) All() (*CustomerSearchResult, error) {
+	resp, err := g.execute("POST", "customers/advanced_search_ids", nil)
+	if err != nil {
+		return nil, err
+	}
+	var result SearchResults
+	err = xml.Unmarshal(resp.Body, &result)
+	if err != nil {
+		return nil, err
+	}
+	query := new(SearchQuery)
+	f := query.AddMultiField("ids")
+	f.Items = result.Ids.Item
+
+	return g.Search(query)
+}
+
 // Create creates a new customer from the passed in customer object.
 // If no Id is set, Braintree will assign one.
 func (g *CustomerGateway) Create(c *Customer) (*Customer, error) {

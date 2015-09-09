@@ -7,7 +7,7 @@ type CustomerGateway struct {
 }
 
 // All fetches all customers.
-func (g *CustomerGateway) All() (*CustomerSearchResult, error) {
+func (g *CustomerGateway) All() (*CustomerResourceCollection, error) {
 	resp, err := g.execute("POST", "customers/advanced_search_ids", nil)
 	if err != nil {
 		return nil, err
@@ -17,11 +17,12 @@ func (g *CustomerGateway) All() (*CustomerSearchResult, error) {
 	if err != nil {
 		return nil, err
 	}
-	query := new(SearchQuery)
-	f := query.AddMultiField("ids")
-	f.Items = result.Ids.Item
-
-	return g.Search(query)
+	return &CustomerResourceCollection{
+		g.Braintree,
+		result.Ids.Item,
+		result.PageSize.Int64,
+		g.fetchCustomers,
+	}, nil
 }
 
 // Create creates a new customer from the passed in customer object.
@@ -89,4 +90,16 @@ func (g *CustomerGateway) Delete(id string) error {
 		return nil
 	}
 	return &invalidResponseError{resp}
+}
+
+// fetchCustomers fetches and returns all customers for the given ids.
+func (g *CustomerGateway) fetchCustomers(ids []string) ([]*Customer, error) {
+	query := new(SearchQuery)
+	f := query.AddMultiField("ids")
+	f.Items = ids
+	result, err := g.Search(query)
+	if err != nil {
+		return nil, err
+	}
+	return result.Customers, nil
 }

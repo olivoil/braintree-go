@@ -2,6 +2,8 @@ package braintree
 
 import (
 	"encoding/xml"
+
+	"github.com/equinux/braintree-go/nullable"
 )
 
 type SearchQuery struct {
@@ -10,8 +12,8 @@ type SearchQuery struct {
 }
 
 type SearchResults struct {
-	XMLName  string `xml:"search-results"`
-	PageSize string `xml:"page-size"`
+	XMLName  string              `xml:"search-results"`
+	PageSize *nullable.NullInt64 `xml:"page-size"`
 	Ids      struct {
 		Item []string `xml:"item"`
 	} `xml:"ids"`

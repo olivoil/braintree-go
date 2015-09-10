@@ -18,7 +18,9 @@ func (r *CustomerResourceCollection) Each(f func(*Customer)) error {
 	pageCount := int64(math.Ceil(float64(len(r.ids)) / float64(r.pageSize)))
 	var page int64
 	for page = 0; page < pageCount; page++ {
-		idBlock := r.ids[(page * r.pageSize):]
+		pageStart := (page * r.pageSize)
+		pageEnd := int64(math.Min(float64((page+1)*r.pageSize), float64(len(r.ids))))
+		idBlock := r.ids[pageStart:pageEnd]
 		customers, err := r.pagingBlock(idBlock)
 		if err != nil {
 			return err

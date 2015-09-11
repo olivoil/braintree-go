@@ -12,7 +12,9 @@ func TestCreditCard(t *testing.T) {
 
 	g := testGateway.CreditCard()
 	card, err := g.Create(&CreditCard{
-		CustomerId:     cust.Id,
+		PaymentMethod: PaymentMethod{
+			CustomerId: cust.Id,
+		},
 		Number:         testCreditCards["visa"].Number,
 		ExpirationDate: "05/14",
 		CVV:            "100",
@@ -32,7 +34,9 @@ func TestCreditCard(t *testing.T) {
 
 	// Update
 	card2, err := g.Update(&CreditCard{
-		Token:          card.Token,
+		PaymentMethod: PaymentMethod{
+			Token: card.Token,
+		},
 		Number:         testCreditCards["mastercard"].Number,
 		ExpirationDate: "05/14",
 		CVV:            "100",
@@ -66,7 +70,9 @@ func TestCreateCreditCardWithExpirationMonthAndYear(t *testing.T) {
 		t.Fatal(err)
 	}
 	card, err := testGateway.CreditCard().Create(&CreditCard{
-		CustomerId:      customer.Id,
+		PaymentMethod: PaymentMethod{
+			CustomerId: customer.Id,
+		},
 		Number:          testCreditCards["visa"].Number,
 		ExpirationMonth: "05",
 		ExpirationYear:  "2014",
@@ -103,7 +109,9 @@ func TestFindCreditCard(t *testing.T) {
 		t.Fatal(err)
 	}
 	card, err := testGateway.CreditCard().Create(&CreditCard{
-		CustomerId:     customer.Id,
+		PaymentMethod: PaymentMethod{
+			CustomerId: customer.Id,
+		},
 		Number:         testCreditCards["visa"].Number,
 		ExpirationDate: "05/14",
 		CVV:            "100",
@@ -149,7 +157,9 @@ func TestSaveCreditCardWithVenmoSDKPaymentMethodCode(t *testing.T) {
 		t.Fatal(err)
 	}
 	card, err := testGateway.CreditCard().Create(&CreditCard{
-		CustomerId:                customer.Id,
+		PaymentMethod: PaymentMethod{
+			CustomerId: customer.Id,
+		},
 		VenmoSDKPaymentMethodCode: "stub-" + testCreditCards["visa"].Number,
 	})
 	if err != nil {
@@ -166,7 +176,9 @@ func TestSaveCreditCardWithVenmoSDKSession(t *testing.T) {
 		t.Fatal(err)
 	}
 	card, err := testGateway.CreditCard().Create(&CreditCard{
-		CustomerId:     customer.Id,
+		PaymentMethod: PaymentMethod{
+			CustomerId: customer.Id,
+		},
 		Number:         testCreditCards["visa"].Number,
 		ExpirationDate: "05/14",
 		Options: &CreditCardOptions{

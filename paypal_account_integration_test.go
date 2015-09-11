@@ -28,7 +28,9 @@ func TestPaypalAccount(t *testing.T) {
 
 	// Update
 	paypalAccount2, err := g.Update(&PaypalAccount{
-		Token: paypalAccount.Token,
+		PaymentMethod: PaymentMethod{
+			Token: paypalAccount.Token,
+		},
 		Email: testPaypalAccounts["example"].Email,
 	})
 	if err != nil {

@@ -18,8 +18,6 @@ type CreditCard struct {
 	CardType                  string             `xml:"card-type,omitempty"`
 	CardholderName            string             `xml:"cardholder-name,omitempty"`
 	CustomerLocation          string             `xml:"customer-location,omitempty"`
-	ImageURL                  string             `xml:"image-url,omitempty"`
-	Default                   bool               `xml:"default,omitempty"`
 	Expired                   bool               `xml:"expired,omitempty"`
 	Last4                     string             `xml:"last-4,omitempty"`
 	Commercial                string             `xml:"commercial,omitempty"`

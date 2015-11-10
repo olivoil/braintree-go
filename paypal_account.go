@@ -5,7 +5,6 @@ import "time"
 type PaypalAccount struct {
 	PaymentMethod
 	Email         string         `xml:"email,omitempty"`
-	ImageURL      string         `xml:"image-url,omitempty"`
 	CreatedAt     *time.Time     `xml:"created-at,omitempty"`
 	UpdatedAt     *time.Time     `xml:"updated-at,omitempty"`
 	Subscriptions *Subscriptions `xml:"subscriptions,omitempty"`

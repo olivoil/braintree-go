@@ -16,6 +16,18 @@ func (g *PaymentMethodGateway) Create(pm *PaymentMethod) (*PaymentMethod, error)
 	return nil, &invalidResponseError{resp}
 }
 
+func (g *PaymentMethodGateway) Delete(token string) error {
+	resp, err := g.execute("DELETE", "payment_methods/any/"+token, nil)
+	if err != nil {
+		return err
+	}
+	switch resp.StatusCode {
+	case 200:
+		return nil
+	}
+	return &invalidResponseError{resp}
+}
+
 func (g *PaymentMethodGateway) Find(token string) (*PaymentMethod, error) {
 	resp, err := g.execute("GET", "payment_methods/any/"+token, nil)
 	if err != nil {

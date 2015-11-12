@@ -16,6 +16,8 @@ type Customer struct {
 	CreditCards    *CreditCards    `xml:"credit-cards,omitempty"`
 	PaypalAccount  *PaypalAccount  `xml:"paypal-account,omitempty"`
 	PaypalAccounts *PaypalAccounts `xml:"paypal-accounts,omitempty"`
+	ApplePayCard   *ApplePayCard   `xml:"apple-pay-card,omitempty"`
+	ApplePayCards  *ApplePayCards  `xml:"apple-pay-cards,omitempty"`
 }
 
 // DefaultCreditCard returns the default credit card, or nil
@@ -26,6 +28,27 @@ func (c *Customer) DefaultCreditCard() *CreditCard {
 		}
 	}
 	return nil
+}
+
+// NOTE: why not make PaymentMethod an interface instead of an embedded type?
+func (c *Customer) PaymentMethods() []*PaymentMethod {
+	methods := []*PaymentMethod{}
+	if c.CreditCards != nil {
+		for _, cc := range c.CreditCards.CreditCard {
+			methods = append(methods, &cc.PaymentMethod)
+		}
+	}
+	if c.PaypalAccounts != nil {
+		for _, pp := range c.PaypalAccounts.PaypalAccount {
+			methods = append(methods, &pp.PaymentMethod)
+		}
+	}
+	if c.ApplePayCards != nil {
+		for _, ap := range c.ApplePayCards.ApplePayCard {
+			methods = append(methods, &ap.PaymentMethod)
+		}
+	}
+	return methods
 }
 
 type CustomerSearchResult struct {

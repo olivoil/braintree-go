@@ -55,6 +55,14 @@ func (r *Response) paypalAccount() (*PaypalAccount, error) {
 	return &b, nil
 }
 
+func (r *Response) applePayCard() (*ApplePayCard, error) {
+	var b ApplePayCard
+	if err := xml.Unmarshal(r.Body, &b); err != nil {
+		return nil, err
+	}
+	return &b, nil
+}
+
 func (r *Response) customer() (*Customer, error) {
 	var b Customer
 	if err := xml.Unmarshal(r.Body, &b); err != nil {
